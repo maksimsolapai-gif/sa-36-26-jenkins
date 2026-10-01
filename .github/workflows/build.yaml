@@ -29,4 +29,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: jfrog.it-academy.by/public/jenkins-ci:<Maksim_Solap_36> 
+          tags: jfrog.it-academy.by/public/jenkins-ci/Maksim_Solap_36 
