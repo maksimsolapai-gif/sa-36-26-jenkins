@@ -1,10 +1,8 @@
 # Homework Assignment 1: Transform Jenkins Deployment to Helm
 
-This repository contains the solution for **Homework Assignment 1**. The goal of this assignment is to transform a static 5-manifest Kubernetes deployment of Jenkins into a production-ready, fully parameterized Helm chart, package it, and prepare it for repository publication.
+The goal of this assignment is to transform a static manifest Kubernetes deployment of Jenkins into a production-ready, fully parameterized Helm chart and package it.
 
 ## Project Structure
-
-The static Kubernetes manifests (Namespace, RBAC, Storage, ConfigMaps/Secrets, and Istio Ingress) have been refactored into the following Helm chart structure:
 
 ```text
 .
@@ -26,6 +24,19 @@ The static Kubernetes manifests (Namespace, RBAC, Storage, ConfigMaps/Secrets, a
 ├── jenkins-0.1.0.tgz
 ├── jenkins-istio.yaml
 └── README.md
+```
+
+
+### History workshop command:
+```
+ kubectl apply -f 01-namespace-rbac.yaml
+ kubectl apply -f 02-storage.yaml
+ ssh student@192.168.208.7
+ kubectl apply -f 03-config.yaml
+ clear
+ kubectl apply -f 03-config.yaml
+ kubectl apply -f 04-jenkins.yaml
+ kubectl apply -f jenkins-istio.yaml
 ```
 
 ## Task Breakdown & Implementation
