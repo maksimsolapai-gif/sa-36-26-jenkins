@@ -8,17 +8,23 @@ The static Kubernetes manifests (Namespace, RBAC, Storage, ConfigMaps/Secrets, a
 
 ```text
 .
-├── Jenkins/
-│   ├── .helmignore
-│   ├── Chart.yaml          # Chart metadata (Name, Version, AppVersion)
-│   ├── values.yaml         # Centralized configuration file (All variables)
-│   └── templates/          # Parameterized Kubernetes manifests
-│       ├── rbac.yaml               # ServiceAccount, Role, RoleBinding
-│       ├── volume.yaml             # PersistentVolume and PersistentVolumeClaim
-│       ├── config-secret.yaml      # Secret and Configuration as Code (CasC) ConfigMaps
-│       ├── deployment-service.yaml # Jenkins Deployment and Service
-│       └── istio.yaml              # Istio Gateway and VirtualService
-├── jenkins-0.1.0.tgz               # Helm Package
+├── 01-namespace-rbac.yaml
+├── 02-storage.yaml
+├── 03-config.yaml
+├── 04-jenkins.yaml
+├── Dockerfile
+├── Jenkins
+│   ├── Chart.yaml
+│   ├── templates
+│   │   ├── config-secret.yaml
+│   │   ├── deployment-service.yaml
+│   │   ├── _helpers.tpl
+│   │   ├── istio.yaml
+│   │   ├── rbac.yaml
+│   │   └── volume.yaml
+│   └── values.yaml
+├── jenkins-0.1.0.tgz
+├── jenkins-istio.yaml
 └── README.md
 ```
 
