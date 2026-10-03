@@ -38,62 +38,87 @@ The goal of this assignment is to transform a static manifest Kubernetes deploym
  kubectl apply -f 04-jenkins.yaml
  kubectl apply -f jenkins-istio.yaml
 ```
+---
+* I created a Jenkins Helm chart, converted the files from the workshop, and moved the parameters to `values.yaml`.
+```
+helm create Jenkins
+```
 
-## Task Breakdown & Implementation
-
-### 1. Variables Centralization (`values.yaml`)
-To fulfill the requirement that **all variables must be inside the variable file**, hardcoded values (such as image tags, NFS paths, replica counts, and Istio hosts) were replaced with Go template placeholders. 
-
-The `values.yaml` handles environment configurations globally:
-* **Image Management**: Configurable repository and image tags for seamless CI/CD rollouts.
-* **Storage Parameters**: Hardcoded NFS server parameters (`192.168.37.105` and paths) are moved to the storage block.
-* **Security & Credentials**: Initial Jenkins administrative credentials and tokens are exposed safely.
-* **Istio Routing**: Routing hosts (e.g., `jenkins.k8s-7.sa`) are dynamically injected into the Istio Gateway and VirtualService templates.
-
-### 2. Validation & Quality Assurance
-The chart was rigorously tested against formatting and validation rules using Helm's native linting engine:
+* The chart was validated using Helm's built-in linting mechanism:
 
 ```bash
 helm lint ./Jenkins/
 ```
-*Output: `1 chart(s) linted, 0 chart(s) failed` — indicating clean syntax and successful variable mapping.*
+<img width="975" height="221" alt="image" src="https://github.com/user-attachments/assets/a74a571f-e713-41e1-8ef5-3a12e25ab69d" />
+
+* Generate the final manifest locally.
+```
+$ helm template jenkins-app Jenkins/
+---
+# Source: jenkins/templates/rbac.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jenkins
+  namespace: ci-cd
+
+---
+# Source: jenkins/templates/config-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: jenkins-secret
+  namespace: ci-cd
+type: Opaque
+stringData:
+  admin-password: "admin"
+  github-token: "admin"
+
+etc...
+```
+---
+
+### Application Deployment (Local Installation)
+To deploy the Jenkins application from your local chart folder into the target `ci-cd` namespace:
+
+```
+$ helm install jenkins-app Jenkins/ --create-namespace -n ci-cd
+NAME: jenkins-app
+LAST DEPLOYED: Fri Oct  2 16:29:15 2026
+NAMESPACE: ci-cd
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+```
 
 ---
 
-## Guide: How to Deploy, Package, and Publish
 
-### Prerequisites
-* Kubernetes Cluster with **Istio Service Mesh** installed.
-* Helm v3 CLI installed.
-* Configured NFS server matching the specifications in `values.yaml`.
-
-### Step 1: Finish Application Deployment (Local Installation)
-To deploy the Jenkins application from your local chart folder into the target `ci-cd` namespace (creating it if it does not exist), execute:
+###  Create the Helm Package
+compressed distribution archive (`.tgz`):
 
 ```bash
-helm install my-jenkins ./Jenkins/ --create-namespace -n ci-cd
+max@ubuntu:~/Project/15.k8s$ helm package Jenkins/
+Successfully packaged chart and saved it to: /home/max/Project/15.k8s/jenkins-0.1.0.tgz
 ```
 
-To verify the running pods and infrastructure components:
-```bash
-kubectl get all -n ci-cd
-```
+### Verification
 
-### Step 2: Create the Helm Package
-To bundle the verified Jenkins application into a reusable, compressed distribution archive (`.tgz`), run:
 
-```bash
-helm package ./Jenkins/
-```
-*This command generates a production package archive, such as `jenkins-0.1.0.tgz`.*
+The release was installed successfully on the k8s context:
+<img width="975" height="108" alt="image" src="https://github.com/user-attachments/assets/a7f41ce4-4927-4c9b-830e-05b98632a968" />
+
+
+
+<img width="975" height="497" alt="image" src="https://github.com/user-attachments/assets/14aa520e-d7b8-4ab5-93e7-16c56023ad59" />
+
+Сhecking Jenkins availability in the browser at http://jenkins.k8s-7.sa/
+<img width="975" height="1003" alt="image" src="https://github.com/user-attachments/assets/a6e74ccf-b113-42ed-af04-f3d135ef7494" />
+
 
 ### Step 3: Publish Helm on Your Repository
-To turn a directory into a hosted Helm repository, generate the necessary registry repository index referencing your remote URL:
 
-```bash
-# Generate the index.yaml tracking file
-helm repo index . --url https://<your-repository-domain-or-github-pages>/
-```
 
 #### Example via GitHub Pages:
 1. Push the generated `jenkins-0.1.0.tgz` and `index.yaml` to a public repository (e.g., `helm-charts`).
