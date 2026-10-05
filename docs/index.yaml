@@ -3,11 +3,11 @@ entries:
   jenkins:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-10-05T18:16:11.510147181Z"
+    created: "2026-10-05T18:53:29.379205825Z"
     description: A Helm chart for Jenkins CI/CD
     digest: 14f821a3e388e78a719f370d07a2d745a41c8fc9379d502697f39cbcca6c3273
     name: jenkins
     urls:
-    - https://github.com/maksimsolapai-gif/sa-36-26-jenkins/jenkins-0.1.0.tgz
+    - https://maksimsolapai-gif.github.io/sa-36-26-jenkins/jenkins-0.1.0.tgz
     version: 0.1.0
-generated: "2026-10-05T18:16:11.509697854Z"
+generated: "2026-10-05T18:53:29.378820639Z"
