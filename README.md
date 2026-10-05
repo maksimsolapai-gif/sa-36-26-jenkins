@@ -98,7 +98,7 @@ TEST SUITE: None
 ###  Create the Helm Package and publish the chart
 compressed distribution archive (`.tgz`):
 
-```bash
+```
 helm package Jenkins/ --destination docs/
 Successfully packaged chart and saved it to: /home/max/Project/15.k8s/jenkins-0.1.0.tgz
 helm repo index docs  --url https://maksimsolapai-gif.github.io/sa-36-26-jenkins/
