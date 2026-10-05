@@ -1,6 +1,6 @@
 # Homework Assignment 1: Transform Jenkins Deployment to Helm
 
-The goal of this assignment is to transform a static manifest Kubernetes deployment of Jenkins into a production-ready, fully parameterized Helm chart and package it.
+The target of this assignment is to transform a static manifest Kubernetes deployment of Jenkins into a production-ready, fully parameterized Helm chart and package it.
 
 ## Project Structure
 
