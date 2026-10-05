@@ -95,13 +95,17 @@ TEST SUITE: None
 ---
 
 
-###  Create the Helm Package
+###  Create the Helm Package and publish the chart
 compressed distribution archive (`.tgz`):
 
 ```bash
-max@ubuntu:~/Project/15.k8s$ helm package Jenkins/
+helm package Jenkins/ --destination docs/
 Successfully packaged chart and saved it to: /home/max/Project/15.k8s/jenkins-0.1.0.tgz
+helm repo index docs  --url https://maksimsolapai-gif.github.io/sa-36-26-jenkins/
 ```
+<img width="975" height="491" alt="image" src="https://github.com/user-attachments/assets/e47c40e7-166b-422d-a25c-50f94a6319a5" />
+
+---
 
 ### Verification
 
@@ -117,15 +121,5 @@ The release was installed successfully on the k8s context:
 <img width="975" height="1003" alt="image" src="https://github.com/user-attachments/assets/a6e74ccf-b113-42ed-af04-f3d135ef7494" />
 
 
-### Step 3: Publish Helm on Your Repository
 
 
-#### Example via GitHub Pages:
-1. Push the generated `jenkins-0.1.0.tgz` and `index.yaml` to a public repository (e.g., `helm-charts`).
-2. Enable **GitHub Pages** under repository settings.
-3. Access or share your published chart globally:
-   ```bash
-   helm repo add my-jenkins-repo https://<your-username>.github.io/helm-charts/
-   helm repo update
-   helm install my-jenkins my-jenkins-repo/jenkins -n ci-cd
-   ```
