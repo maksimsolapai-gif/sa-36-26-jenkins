@@ -5,7 +5,7 @@ global:
 replicaCount: 1
 
 image:
-  repository: jfrog.it-academy.by/public/jenkins-ci
+  repository: jfrog.it-academy.by/ui/native/public/jenkins-ci
   tag: maksim_solap_36
   pullPolicy: IfNotPresent
 
